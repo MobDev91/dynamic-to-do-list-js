@@ -5,30 +5,36 @@ document.addEventListener("DOMContentLoaded", function() {
     const taskInput = document.getElementById("task-input");
     const taskList = document.getElementById("task-list");
 
-    function addTask(){
+    function addTask() {
         taskText = taskInput.value.trim();
         console.log(taskText);
-        if(taskText != ""){
-            const liElement = document.createElement("li");
-            liElement.textContent = taskText;
-            const btnElement = document.createElement("button");
-            btnElement.textContent = "Remove";
-            btnElement.className = "remove-btn";
-            btnElement.onclick = function(){
-                btnElement.parentElement.remove();
-            }
-            liElement.appendChild(btnElement);
-            taskList.appendChild(liElement);
-            taskInput.value="";
+
+        if(taskText === ""){
+            alert("Task Should not be empty");
         }
 
-        else {
-        alert("Task Should not be empty");
+        const li = document.createElement("li");
+        li.textContent = taskText;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.className = "remove-btn";
+
+        removeBtn.onclick = function(){
+            taskList.removeChild(li);
         }
 
+        li.appendChild(removeBtn);
+
+        taskList.appendChild(li);
+
+        taskInput.value="";
     }
 
      addButton.addEventListener("click", addTask);
-     addButton.addEventListener("keypress", addTask);
-
-})
+     taskInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            addTask();
+        }
+    });
+});
